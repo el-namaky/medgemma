@@ -10,11 +10,12 @@ USE_MOCK = os.environ.get("MEDGEMMA_MOCK", "true").lower() == "true"
 
 _model = None
 _tokenizer = None
+_loading_error = None
 
 
 def load_medgemma():
     """Load MedGemma 4B model with 4-bit quantization."""
-    global _model, _tokenizer
+    global _model, _tokenizer, _loading_error
 
     if USE_MOCK:
         print("🧪 Running in MOCK mode — MedGemma responses will be simulated")
@@ -42,6 +43,7 @@ def load_medgemma():
     except Exception as e:
         print(f"⚠️ Failed to load MedGemma: {e}")
         print("🧪 Falling back to MOCK mode")
+        _loading_error = str(e)
         _model = "mock"
         _tokenizer = "mock"
         return _model, _tokenizer
@@ -273,6 +275,32 @@ def _generate_mock_response(prompt, system_prompt=""):
 
 4. **تحذيرات:**
    - لا توجد تحذيرات إضافية حالياً"""
+    
+    # First Aid / Choking Mock (Added for user request)
+    if "اختناق" in prompt or "choking" in prompt_lower or "اسعافات" in prompt:
+         return """🚑 **الإسعافات الأولية للاختناق (Choking):**
+    
+    1. **شجع المصاب على السعال** إذا كان يستطيع التنفس جزئياً.
+    2. **ضربات الظهر (Back Blows):**
+       - قف خلف المصاب واسنده بيد واحدة.
+       - اضرب بقوة 5 مرات بين لوحي الكتف بكعب يدك الأخرى.
+    3. **ضغطات البطن (مناورة هيمليك - Heimlich Maneuver):**
+       - قف خلف المصاب ولف ذراعيك حول خصره.
+       - اقبض يدك وضعها فوق السرة (تحت القفص الصدري).
+       - اضغط بقوة للداخل ولأعلى 5 مرات.
+    4. **كرر:** 5 ضربات ظهر ثم 5 ضغطات بطن حتى يخرج الجسم الغريب.
+    
+    ⚠️ **إذا فقد المصاب الوعي:** ابدأ الإنعاش القلبي الرئوي (CPR) فوراً واتصل بالطوارئ."""
 
-    # Default response
-    return "تم تحليل البيانات الطبية المقدمة. يرجى تقديم مزيد من المعلومات للحصول على تحليل أدق."
+    # Generic Mock Response with Loading Status Check
+    status_msg = ""
+    # Check if _loading_error global exists (it might not if imported partially)
+    try:
+        if _loading_error:
+            status_msg = f"\n\n⚠️ **تنبيه:** فشل تحميل الموديل الحقيقي ({_loading_error}).\nأعمل حالياً بوضع المحاكاة (Demo Mode)."
+        else:
+             status_msg = "\n\n⚠️ **تنبيه:** أعمل بوضع المحاكاة (Demo Mode) لأن الاتصال بالنموذج غير نشط."
+    except NameError:
+        status_msg = "\n\n⚠️ **تنبيه:** أعمل بوضع المحاكاة (Demo Mode)."
+
+    return f"⚠️ **وضع المحاكاة:** لم أتمكن من فهم هذا السؤال في الوضع التجريبي.\n\nالسؤال: {prompt}\n\nيرجى التأكد من تشغيل النموذج الحقيقي على Colab للحصول على إجابات غير محدودة.{status_msg}"
