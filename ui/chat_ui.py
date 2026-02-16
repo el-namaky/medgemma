@@ -41,14 +41,12 @@ def create_chat_ui():
         
         chat = gr.ChatInterface(
             fn=respond,
-            chatbot=gr.Chatbot(height=500),
+            chatbot=gr.Chatbot(height=500, type="messages"),
             textbox=gr.Textbox(placeholder="اكتب رسالتك هنا...", container=False, scale=7),
             title=None,
             description="هذه واجهة محادثة مباشرة مع نموذج MedGemma بدون أي System Prompt.",
             theme="soft",
             examples=["مرحباً", "من أنت؟", "تحدث عن الطب"],
             cache_examples=False,
-            undo_btn="↩️ تراجع",
             clear_btn="🗑️ مسح",
-            retry_btn="🔄 إعادة المحاولة",
         )
