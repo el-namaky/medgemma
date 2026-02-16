@@ -45,8 +45,6 @@ def create_chat_ui():
             textbox=gr.Textbox(placeholder="اكتب رسالتك هنا...", container=False, scale=7),
             title=None,
             description="هذه واجهة محادثة مباشرة مع نموذج MedGemma بدون أي System Prompt.",
-            theme="soft",
             examples=["مرحباً", "من أنت؟", "تحدث عن الطب"],
             cache_examples=False,
-            clear_btn="🗑️ مسح",
         )

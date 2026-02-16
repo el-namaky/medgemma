@@ -40,8 +40,6 @@ def main():
     print("\n🎨 Step 3: Building Gradio interface...")
 
     with gr.Blocks(
-        theme=get_gradio_theme(),
-        css=CUSTOM_CSS,
         title="Gemma-Health Sentinel — نظام الطوارئ الذكي"
     ) as app:
 
@@ -101,6 +99,8 @@ def main():
         server_port=7860,
         share=enable_share,
         show_error=True,
+        theme=get_gradio_theme(),
+        css=CUSTOM_CSS,
     )
 
 

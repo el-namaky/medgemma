@@ -8,7 +8,8 @@
 ## المتطلبات المسبقة
 1. حساب Google (Gmail).
 2. حساب على [Hugging Face](https://huggingface.co/).
-3. الموافقة على شروط استخدام موديل Gemma (إذا لزم الأمر) وإنشاء Access Token.
+3. **هام جداً**: الذهاب إلى صفحة [google/medgemma-4b-it](https://huggingface.co/google/medgemma-4b-it) والموافقة على شروط الاستخدام (License) في أعلى الصفحة.
+4. إنشاء **Access Token** (من نوع Read) من إعدادات Hugging Face.
 
 ---
 
@@ -65,4 +66,6 @@
 - **Private Repo Error**: إذا فشل استنساخ المستودع الخاص، تأكد من استخدام التوكن في الرابط:
   `https://TOKEN@github.com/user/repo.git`
 - **Out of Memory (OOM)**: إذا توقف التشغيل بسبب الذاكرة، أعد تشغيل Runtime.
-- **Model not found**: تأكد من قبولك لشروط Gemma على Hugging Face وأن التوكن صحيح.
+- **Model not found / 401 Client Error**:
+  - السبب: لم توافق على شروط الموديل أو التوكن غير صحيح.
+  - الحل: اذهب لصفحة الموديل [google/medgemma-4b-it](https://huggingface.co/google/medgemma-4b-it) واضغط "Agree" على الشروط. ثم تأكد من نسخ التوكن الصحيح.
